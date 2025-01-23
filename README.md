@@ -1,16 +1,16 @@
-# Windy
+# Windex
 
-**This library is still in development and is not ready to be used.**
+**This is a spinoff of [Windy](https://github.com/treeform/windy)** partly to handle Nimble issues with conflicting URL's and also to customize it for Figuro a bit more. Note I'd love to merge new stuff back to Windy, but the development their appears stale for the last couple of years.
 
-Windy is a windowing library for Nim that uses OS native APIs to manage windows, set up OpenGL and receive mouse and keyboard input.
+Windex is a windowing library for Nim that uses OS native APIs to manage windows, set up OpenGL and receive mouse and keyboard input.
 
-`nimble install windy`
+`nimble install windex`
 
-![Github Actions](https://github.com/treeform/windy/workflows/Github%20Actions/badge.svg)
+![Github Actions](https://github.com/treeform/windex/workflows/Github%20Actions/badge.svg)
 
-[API reference](https://treeform.github.io/windy)
+[API reference](https://treeform.github.io/windex)
 
-Windy will work great for 2D and 3D OpenGL games as well as GUI apps using OpenGL. Using this library should feel similar to GLFW or SDL.
+Windex will work great for 2D and 3D OpenGL games as well as GUI apps using OpenGL. Using this library should feel similar to GLFW or SDL.
 
 Features:
 * Multi-platform (Windows, macOS, Linux)
@@ -30,9 +30,9 @@ Features:
 ## Basic Example
 
 ```nim
-import opengl, windy
+import opengl, windex
 
-let window = newWindow("Windy Example", ivec2(1280, 800))
+let window = newWindow("Windex Example", ivec2(1280, 800))
 
 window.makeContextCurrent()
 loadExtensions()
@@ -47,15 +47,15 @@ while not window.closeRequested:
   pollEvents()
 ```
 
-[Check out more examples here.](https://github.com/treeform/windy/tree/master/examples)
+[Check out more examples here.](https://github.com/treeform/windex/tree/master/examples)
 
 
 ### Why not just use GLFW or SDL?
 
 Here are a few reasons that may be worth considering:
 
-* Windy is written in Nim so it will be more natural to use than bindings to other libraries. For example, making a window fullscreen is as easy as `window.fullscreen = true`. Consider browsing some of the examples and consider if you would find this Nim-first API more pleasant to work with.
+* Windex is written in Nim so it will be more natural to use than bindings to other libraries. For example, making a window fullscreen is as easy as `window.fullscreen = true`. Consider browsing some of the examples and consider if you would find this Nim-first API more pleasant to work with.
 
-* Windy includes events for double, triple and quadruple clicks. Furthermore, Windy maintains the keyboard and mouse state in a way that makes reacting to input state easier each frame. See `buttonPressed[]`, `buttonDown[]`, `buttonReleased[]` and `buttonToggle[]` on `Window`.
+* Windex includes events for double, triple and quadruple clicks. Furthermore, Windex maintains the keyboard and mouse state in a way that makes reacting to input state easier each frame. See `buttonPressed[]`, `buttonDown[]`, `buttonReleased[]` and `buttonToggle[]` on `Window`.
 
-* Windy has IME input support for Chinese, Japanese, Korean and other languages. Text input can also be enabled or disabled at any time (for example, to avoid opening the IME editor when a user just wants to use WASD in a game).
+* Windex has IME input support for Chinese, Japanese, Korean and other languages. Text input can also be enabled or disabled at any time (for example, to avoid opening the IME editor when a user just wants to use WASD in a game).

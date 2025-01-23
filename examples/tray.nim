@@ -1,9 +1,9 @@
-import pixie, windy
+import pixie, windex
 
 when defined(windows):
   # Tray API only currently supported on Windows
 
-  let window = newWindow("Windy Tray Icon", ivec2(1280, 800))
+  let window = newWindow("Windex Tray Icon", ivec2(1280, 800))
   window.makeContextCurrent()
 
   let

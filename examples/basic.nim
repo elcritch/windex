@@ -1,6 +1,6 @@
-import opengl, windy
+import opengl, windex
 
-let window = newWindow("Windy Basic", ivec2(1280, 800))
+let window = newWindow("Windex Basic", ivec2(1280, 800))
 
 window.makeContextCurrent()
 loadExtensions()

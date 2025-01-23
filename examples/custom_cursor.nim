@@ -1,9 +1,9 @@
-import pixie, windy
+import pixie, windex
 
 when defined(windows) or defined(macosx):
   # Custom cursor API only currently supported on Windows and macOS
 
-  let window = newWindow("Windy Cursor", ivec2(1280, 800))
+  let window = newWindow("Windex Cursor", ivec2(1280, 800))
   window.makeContextCurrent()
 
   echo window.cursor

@@ -1,4 +1,4 @@
-import boxy, opengl, windy
+import boxy, opengl, windex
 
 let window = newWindow("Toggle Fullscreen", ivec2(1280, 800), vsync=true)
 

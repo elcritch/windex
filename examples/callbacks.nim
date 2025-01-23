@@ -1,6 +1,6 @@
-import opengl, os, windy
+import opengl, os, windex
 
-let window = newWindow("Windy Callbacks", ivec2(1280, 800))
+let window = newWindow("Windex Callbacks", ivec2(1280, 800))
 window.runeInputEnabled = true
 
 window.makeContextCurrent()

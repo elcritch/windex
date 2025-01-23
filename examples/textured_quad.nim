@@ -1,6 +1,6 @@
 ## This example shows how to load a texture with Pixie into OpenGL 4.
 
-import opengl, pixie, windy
+import opengl, pixie, windex
 
 const vertexShaderText = """
 #version 410
@@ -56,7 +56,7 @@ proc checkLinkError*(program: GLuint) =
     glGetProgramInfoLog(program, length, nil, log.cstring)
     echo log
 
-let window = newWindow("Windy Textured Quad", ivec2(512, 512))
+let window = newWindow("Windex Textured Quad", ivec2(512, 512))
 window.makeContextCurrent()
 loadExtensions()
 

@@ -1,5 +1,5 @@
 
-import windy, random, tables, times
+import windex, random, tables, times
 
 import std/asyncdispatch
 import std/httpclient {.all.}
@@ -123,7 +123,7 @@ req.onDownloadProgress = proc(progress, total: int) =
 echo "handles set"
 
 # Closing the window exits the demo
-let window = newWindow("Windy Basic", ivec2(1280, 800))
+let window = newWindow("Windex Basic", ivec2(1280, 800))
 while not window.closeRequested:
   pollEvents()
   pollHttp()

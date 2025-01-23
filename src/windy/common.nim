@@ -1,7 +1,7 @@
 import pixie, std/strutils, std/unicode
 
 type
-  WindyError* = object of ValueError
+  WindexError* = object of ValueError
 
   OpenGLVersion* = enum
     OpenGL3Dot0

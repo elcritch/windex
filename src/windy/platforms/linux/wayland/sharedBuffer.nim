@@ -22,7 +22,7 @@ proc create*(shm: Shm, size: IVec2, format: PixelFormat): SharedBuffer =
 
   result.shm = shm
 
-  let filebase = getEnv("XDG_RUNTIME_DIR") / "windy-"
+  let filebase = getEnv("XDG_RUNTIME_DIR") / "windex-"
   for i in 0..int.high:
     if not fileExists(filebase & $i):
       result.filename = filebase & $i

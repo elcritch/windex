@@ -65,7 +65,7 @@ proc eglMakeCurrent(d; draw, read: EglSurface; ctx: EglContext): bool
 {.pop.}
 
 template expect(x) =
-  if not x: raise WindyError.newException("Error creating OpenGL context (" &
+  if not x: raise WindexError.newException("Error creating OpenGL context (" &
       $eglGetError() & ")")
 
 var d: EglDisplay
@@ -105,7 +105,7 @@ proc newOpenglContext*: OpenglContext =
 
 proc makeCurrent*(context: OpenglContext) =
   if not d.eglMakeCurrent(context.srf, context.srf, context.ctx):
-    raise WindyError.newException("Error creating OpenGL context (" &
+    raise WindexError.newException("Error creating OpenGL context (" &
         $eglGetError() & ")")
 
 proc terminateEgl* =

@@ -1,9 +1,9 @@
-import opengl, os, windy
+import opengl, os, windex
 
 # https://en.wikipedia.org/wiki/OpenGL#Version_history
 
 let window = newWindow(
-  "Windy",
+  "Windex",
   ivec2(1280, 800),
   openglVersion = OpenGL3Dot3
 )

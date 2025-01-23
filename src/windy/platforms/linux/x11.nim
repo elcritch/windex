@@ -1,7 +1,7 @@
 import ../../common, ../../internal, os, sequtils, sets, strformat, times,
     unicode, vmath, x11/glx, x11/keysym, x11/x, x11/xevent, x11/xlib, pixie
 
-when defined(windyUseStdHttp):
+when defined(windexUseStdHttp):
   import ../../http
   export http
 
@@ -81,7 +81,7 @@ proc initConstants(display: Display) =
   xaNetWMSyncRequest = display.XInternAtom("_NET_WM_SYNC_REQUEST", 0)
   xaNetWMSyncRequestCounter = display.XInternAtom("_NET_WM_SYNC_REQUEST_COUNTER", 0)
   xaClipboard = display.XInternAtom("CLIPBOARD", 0)
-  xaWindyClipboardTargetProperty = display.XInternAtom("windy_clipboardTargetProperty", 0)
+  xaWindexClipboardTargetProperty = display.XInternAtom("windex_clipboardTargetProperty", 0)
   xaTargets = display.XInternAtom("TARGETS", 0)
   xaText = display.XInternAtom("TEXT", 0)
 
@@ -89,7 +89,7 @@ proc atomIfExist(name: string): Atom =
   display.XInternAtom(name, 1)
 
 proc handleXError(d: Display, event: ptr XErrorEvent): bool {.cdecl.} =
-  raise WindyError.newException("Error dealing with X11: " &
+  raise WindexError.newException("Error dealing with X11: " &
       $event.errorCode.Status)
 
 proc init =
@@ -100,7 +100,7 @@ proc init =
 
   display = XOpenDisplay(cstring(getEnv("DISPLAY")))
   if display == nil:
-    raise WindyError.newException("Error opening X11 display, make sure the DISPLAY environment variable is set correctly")
+    raise WindexError.newException("Error opening X11 display, make sure the DISPLAY environment variable is set correctly")
 
   display.initConstants()
 
@@ -194,7 +194,7 @@ proc newClientMessage[T](
   result.kind = xeClientMessage
   result.client.messageType = messageKind
   if data.len * T.sizeof > XClientMessageData.sizeof:
-    raise WindyError.newException(&"To much data in client message (>{XClientMessageData.sizeof} bytes)")
+    raise WindexError.newException(&"To much data in client message (>{XClientMessageData.sizeof} bytes)")
   if data.len > 0:
     copyMem(result.client.data.addr, data[0].unsafeaddr, data.len * T.sizeof)
   result.client.format = case T.sizeof
@@ -588,7 +588,7 @@ proc newWindow*(
 
   transparent = false,
 ): Window =
-  ## Creates a new window. Intitializes Windy if needed.
+  ## Creates a new window. Intitializes Windex if needed.
   init()
   result = Window()
   result.innerDecorated = true
@@ -656,7 +656,7 @@ proc newWindow*(
   result.ctx = display.glXCreateContext(vi.addr, nil, 1)
 
   if result.ctx == nil:
-    raise WindyError.newException("Error creating OpenGL context")
+    raise WindexError.newException("Error creating OpenGL context")
 
   result.title = title
 
@@ -670,7 +670,7 @@ proc newWindow*(
     elif glXSwapIntervalSGI != nil:
       glXSwapIntervalSGI(1)
     else:
-      raise WindyError.newException("VSync is not supported")
+      raise WindexError.newException("VSync is not supported")
 
   if visible:
     result.visible = true
@@ -930,9 +930,9 @@ proc processClipboardEvents: bool =
         continue
 
       clipboardContent = clipboardWindow.property(
-        xaWindyClipboardTargetProperty
+        xaWindexClipboardTargetProperty
       ).data
-      clipboardWindow.delProperty(xaWindyClipboardTargetProperty)
+      clipboardWindow.delProperty(xaWindexClipboardTargetProperty)
 
       return true
 
@@ -984,7 +984,7 @@ proc getClipboardString*: string =
   display.XConvertSelection(
     xaClipboard,
     xaUTF8String,
-    xaWindyClipboardTargetProperty,
+    xaWindexClipboardTargetProperty,
     clipboardWindow
   )
 
@@ -1017,7 +1017,7 @@ proc pollEvents*() =
   for window in windows:
     pollEvents(window)
 
-  when defined(windyUseStdHttp):
+  when defined(windexUseStdHttp):
     pollHttp()
 
 proc closeIme*(window: Window) =

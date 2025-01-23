@@ -427,6 +427,6 @@ var
   xaNetWMSyncRequest*: Atom
   xaNetWMSyncRequestCounter*: Atom
   xaClipboard*: Atom
-  xaWindyClipboardTargetProperty*: Atom
+  xaWindexClipboardTargetProperty*: Atom
   xaTargets*: Atom
   xaText*: Atom

@@ -1,8 +1,8 @@
-import opengl, windy
+import opengl, windex
 
-let window = newWindow("Windy Retina", ivec2(1280, 800))
+let window = newWindow("Windex Retina", ivec2(1280, 800))
 
-# Windy uses physical pixels for window size units.
+# Windex uses physical pixels for window size units.
 # This means this 1280 x 800 pixel window will look smaller than expected
 # on high-dpi screens like a Macbook Retina display.
 

@@ -55,17 +55,17 @@ proc connect*(name = getEnv("WAYLAND_SOCKET")): Display =
   
   if not name.isAbsolute:
     var runtimeDir = getEnv("XDG_RUNTIME_DIR")
-    if runtimeDir == "": raise WindyError.newException("XDG_RUNTIME_DIR not set in the environment")
+    if runtimeDir == "": raise WindexError.newException("XDG_RUNTIME_DIR not set in the environment")
     name = runtimeDir / name
 
   let sock = createNativeSocket(posix.AF_UNIX, posix.SOCK_STREAM or posix.SOCK_CLOEXEC, 0)
-  if sock == osInvalidSocket: raise WindyError.newException("Failed to create socket")
+  if sock == osInvalidSocket: raise WindexError.newException("Failed to create socket")
 
   var a = "\1\0" & name
   
   if sock.connect(cast[ptr SockAddr](a[0].addr), uint32 a.len) < 0:
     close sock
-    raise WindyError.newException("Failed to connect to wayland server")
+    raise WindexError.newException("Failed to connect to wayland server")
   
   result.socket = newSocket(sock, nativesockets.AF_UNIX, nativesockets.SOCK_STREAM, nativesockets.IPPROTO_IP)
 

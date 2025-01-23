@@ -187,7 +187,7 @@ proc registerWindowClass(windowClassName: string, wndProc: WNDPROC) =
   )
 
   if RegisterClassExW(wc.addr) == 0:
-    raise newException(WindyError, "Error registering window class")
+    raise newException(WindexError, "Error registering window class")
 
 proc createWindow(windowClassName, title: string): HWND =
   let
@@ -209,7 +209,7 @@ proc createWindow(windowClassName, title: string): HWND =
     nil
   )
   if result == 0:
-    raise newException(WindyError, "Creating native window failed")
+    raise newException(WindexError, "Creating native window failed")
 
 proc destroy(window: Window) =
   window.onCloseRequest = nil
@@ -252,7 +252,7 @@ proc createIconHandle(image: Image): HICON =
   )
 
   if result == 0:
-    raise newException(WindyError, "Error creating icon")
+    raise newException(WindexError, "Error creating icon")
 
 proc createCursorHandle(cursor: Cursor): HCURSOR =
   var encoded: string
@@ -271,12 +271,12 @@ proc createCursorHandle(cursor: Cursor): HCURSOR =
   )
 
   if result == 0:
-    raise newException(WindyError, "Error creating cursor")
+    raise newException(WindexError, "Error creating cursor")
 
 proc getDC(hWnd: HWND): HDC =
   result = GetDC(hWnd)
   if result == 0:
-    raise newException(WindyError, "Error getting window DC")
+    raise newException(WindexError, "Error getting window DC")
 
 proc getWindowStyle(hWnd: HWND): LONG =
   GetWindowLongW(hWnd, GWL_STYLE)
@@ -312,7 +312,7 @@ proc updateWindowStyle(hWnd: HWND, style: LONG) =
 
 proc makeContextCurrent(hdc: HDC, hglrc: HGLRC) =
   if wglMakeCurrent(hdc, hglrc) == 0:
-    raise newException(WindyError, "Error activating OpenGL rendering context")
+    raise newException(WindexError, "Error activating OpenGL rendering context")
 
 proc monitorInfo(window: Window): MONITORINFO =
   result.cbSize = sizeof(MONITORINFO).DWORD
@@ -434,7 +434,7 @@ proc `style=`*(window: Window, windowStyle: WindowStyle) =
 
       try:
         if DwmEnableBlurBehindWindow(window.hWnd, bb.addr) != S_OK:
-          raise newException(WindyError, "Error enabling window transparency")
+          raise newException(WindexError, "Error enabling window transparency")
       finally:
         discard DeleteObject(region)
     else:
@@ -445,7 +445,7 @@ proc `style=`*(window: Window, windowStyle: WindowStyle) =
       bb.fEnable = FALSE
 
       if DwmEnableBlurBehindWindow(window.hWnd, bb.addr) != S_OK:
-        raise newException(WindyError, "Error disabling window transparency")
+        raise newException(WindexError, "Error disabling window transparency")
 
 proc `fullscreen=`*(window: Window, fullscreen: bool) =
   if window.fullscreen == fullscreen:
@@ -648,7 +648,7 @@ proc loadOpenGL() =
   # available in PIXELFORMATDESCRIPTOR), but we can't load and use that before
   # we have a context.
 
-  let dummyWindowClassName = "WindyDummy"
+  let dummyWindowClassName = "WindexDummy"
 
   proc dummyWndProc(
     hWnd: HWND, uMsg: UINT, wParam: WPARAM, lParam: LPARAM
@@ -738,7 +738,7 @@ proc loadLibraries() =
   )
 
 proc createHelperWindow(): HWND =
-  let helperWindowClassName = "WindyHelper"
+  let helperWindowClassName = "WindexHelper"
 
   proc helperWndProc(
     hWnd: HWND,
@@ -802,7 +802,7 @@ proc wndProc(
 
   let window = windows.forHandle(hWnd)
   if window == nil:
-    raise newException(WindyError, "Received message for missing window")
+    raise newException(WindexError, "Received message for missing window")
 
   case uMsg:
   of WM_CLOSE:
@@ -986,7 +986,7 @@ proc wndProc(
 proc init() {.raises: [].} =
   if initialized:
     return
-  windowPropKey = "Windy".wstr()
+  windowPropKey = "Windex".wstr()
   loadLibraries()
   discard SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2)
   loadOpenGL()
@@ -1003,7 +1003,7 @@ proc makeContextCurrent*(window: Window) =
 
 proc swapBuffers*(window: Window) =
   if SwapBuffers(window.hdc) == 0:
-    raise newException(WindyError, "Error swapping buffers")
+    raise newException(WindexError, "Error swapping buffers")
 
 proc close*(window: Window) =
   destroy window
@@ -1033,7 +1033,7 @@ proc newWindow*(
     result.hdc = getDC(result.hWnd)
 
     if result.hdc == 0:
-      raise newException(WindyError, "result.hdc is 0")
+      raise newException(WindexError, "result.hdc is 0")
 
     let pixelFormatAttribs = [
       WGL_DRAW_TO_WINDOW_ARB.int32,
@@ -1070,9 +1070,9 @@ proc newWindow*(
       pixelFormat.addr,
       numFormats.addr
     ) == 0:
-      raise newException(WindyError, "Error choosing pixel format")
+      raise newException(WindexError, "Error choosing pixel format")
     if numFormats == 0:
-      raise newException(WindyError, "No pixel format chosen")
+      raise newException(WindexError, "No pixel format chosen")
 
     var pfd: PIXELFORMATDESCRIPTOR
     if DescribePixelFormat(
@@ -1081,10 +1081,10 @@ proc newWindow*(
       sizeof(PIXELFORMATDESCRIPTOR).UINT,
       pfd.addr
     ) == 0:
-      raise newException(WindyError, "Error describing pixel format")
+      raise newException(WindexError, "Error describing pixel format")
 
     if SetPixelFormat(result.hdc, pixelFormat, pfd.addr) == 0:
-      raise newException(WindyError, "Error setting pixel format")
+      raise newException(WindexError, "Error setting pixel format")
 
     let contextAttribs = [
       WGL_CONTEXT_MAJOR_VERSION_ARB.int32,
@@ -1104,7 +1104,7 @@ proc newWindow*(
       contextAttribs[0].unsafeAddr
     )
     if result.hglrc == 0:
-      raise newException(WindyError, "Error creating OpenGL context")
+      raise newException(WindexError, "Error creating OpenGL context")
 
     # The first call to ShowWindow may ignore the parameter so do an initial
     # call to clear that behavior.
@@ -1113,13 +1113,13 @@ proc newWindow*(
     result.makeContextCurrent()
 
     if wglSwapIntervalEXT(if vsync: 1 else: 0) == 0:
-      raise newException(WindyError, "Error setting swap interval")
+      raise newException(WindexError, "Error setting swap interval")
 
     windows.add(result)
 
     result.style = style
     result.visible = visible
-  except WindyError as e:
+  except WindexError as e:
     destroy result
     raise e
 
@@ -1428,7 +1428,7 @@ proc onDeadlineExceeded(handle: HttpRequestHandle) =
     msg = "Deadline of " & $state.deadline & " exceeded, time is " & $now
   handle.onHttpError(msg)
 
-when defined(windyUseStdHttp):
+when defined(windexUseStdHttp):
   # For debugging, use Nim's std/httpclient on Windows
   import ../../http
   export http
@@ -1464,7 +1464,7 @@ elif compileOption("threads"):
       state.deadline = epochTime() + 60 # Default deadline
 
     while true:
-      result = windyRand.next().HttpRequestHandle
+      result = windexRand.next().HttpRequestHandle
       if result notin httpRequests and result.WebSocketHandle notin webSockets:
         httpRequests[result] = state
         break
@@ -2084,7 +2084,7 @@ elif compileOption("threads"):
 
     var handle: WebSocketHandle
     while true:
-      handle = windyRand.next().WebSocketHandle
+      handle = windexRand.next().WebSocketHandle
       if handle.HttpRequestHandle notin httpRequests and handle notin webSockets:
         webSockets[handle] = state
         break
@@ -2352,7 +2352,7 @@ proc pollEvents*() =
       if (GetKeyState(VK_RSHIFT) and KF_UP) == 0:
         activeWindow.handleButtonRelease(KeyRightShift)
 
-  when defined(windyUseStdHttp):
+  when defined(windexUseStdHttp):
     pollHttp()
 
 proc forceMousePos*(window: Window, mousePos: IVec2) =

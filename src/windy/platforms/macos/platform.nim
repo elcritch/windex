@@ -1,7 +1,7 @@
 import ../../common, ../../internal, macdefs, opengl, pixie/fileformats/png,
     pixie/images, times, unicode, utils, vmath
 
-when defined(windyUseStdHttp):
+when defined(windexUseStdHttp):
   import ../../http
   export http
 
@@ -37,7 +37,7 @@ const
     NSWindowStyleMaskBorderless or NSWindowStyleMaskMiniaturizable
 
 var
-  WindyAppDelegate, WindyWindow, WindyView: Class
+  WindexAppDelegate, WindexWindow, WindexView: Class
   windows: seq[Window]
 
 proc indexForNSWindow(windows: seq[Window], inner: NSWindow): int =
@@ -673,11 +673,11 @@ proc init() {.raises: [].} =
   autoreleasepool:
     discard NSApplication.sharedApplication()
 
-    addClass "WindyAppDelegate", "NSObject", WindyAppDelegate:
+    addClass "WindexAppDelegate", "NSObject", WindexAppDelegate:
       addMethod "applicationWillFinishLaunching:", applicationWillFinishLaunching
       addMethod "applicationDidFinishLaunching:", applicationDidFinishLaunching
 
-    addClass "WindyWindow", "NSWindow", WindyWindow:
+    addClass "WindexWindow", "NSWindow", WindexWindow:
       addMethod "windowDidResize:", windowDidResize
       addMethod "windowDidMove:", windowDidMove
       addMethod "canBecomeKeyWindow:", canBecomeKeyWindow
@@ -685,7 +685,7 @@ proc init() {.raises: [].} =
       addMethod "windowDidResignKey:", windowDidResignKey
       addMethod "windowShouldClose:", windowShouldClose
 
-    addClass "WindyView", "NSOpenGLView", WindyView:
+    addClass "WindexView", "NSOpenGLView", WindexView:
       addProtocol "NSTextInputClient"
       addMethod "acceptsFirstResponder", acceptsFirstResponder
       addMethod "canBecomeKeyView", canBecomeKeyView
@@ -719,7 +719,7 @@ proc init() {.raises: [].} =
       addMethod "doCommandBySelector:", doCommandBySelector
       addMethod "resetCursorRects", resetCursorRects
 
-    let appDelegate = WindyAppDelegate.new()
+    let appDelegate = WindexAppDelegate.new()
     NSApp.setDelegate(appDelegate)
 
     NSApp.finishLaunching()
@@ -795,7 +795,7 @@ proc pollEvents*() =
       # forward event for app to handle
       NSApp.sendEvent(event)
 
-  when defined(windyUseStdHttp):
+  when defined(windexUseStdHttp):
     pollHttp()
 
 proc makeContextCurrent*(window: Window) =
@@ -846,10 +846,10 @@ proc newWindow*(
     of OpenGL4Dot1:
       NSOpenGLProfileVersion4_1Core
     else:
-      raise newException(WindyError, "Unsupported OpenGL version")
+      raise newException(WindexError, "Unsupported OpenGL version")
 
   autoreleasepool:
-    result.inner = WindyWindow.alloc().NSWindow.initWithContentRect(
+    result.inner = WindexWindow.alloc().NSWindow.initWithContentRect(
       NSMakeRect(0, 0, 400, 400),
       decoratedResizableWindowMask,
       NSBackingStoreBuffered,
@@ -874,7 +874,7 @@ proc newWindow*(
         pixelFormatAttribs[0].unsafeAddr
       )
 
-    let openglView = WindyView.alloc().NSOpenGLView.initWithFrame(
+    let openglView = WindexView.alloc().NSOpenGLView.initWithFrame(
       result.inner.contentView.frame,
       pixelFormat
     )

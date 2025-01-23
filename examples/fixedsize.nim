@@ -1,6 +1,6 @@
-import opengl, windy
+import opengl, windex
 
-let window = newWindow("Windy Basic", ivec2(500, 500))
+let window = newWindow("Windex Basic", ivec2(500, 500))
 window.style = Decorated
 
 window.makeContextCurrent()

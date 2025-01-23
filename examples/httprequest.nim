@@ -1,4 +1,4 @@
-import windy
+import windex
 
 # HTTP requests do not block.
 
@@ -19,6 +19,6 @@ req.onResponse = proc(response: HttpResponse) =
   echo "onResponse: code=", $response.code, ", len=", response.body.len
 
 # Closing the window exits the demo
-let window = newWindow("Windy Basic", ivec2(1280, 800))
+let window = newWindow("Windex Basic", ivec2(1280, 800))
 while not window.closeRequested:
   pollEvents()

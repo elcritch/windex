@@ -31,10 +31,10 @@ type
 var
   initialized*: bool
   platformDoubleClickInterval*: float64
-  windyRand* = initRand(2022)
+  windexRand* = initRand(2022)
 
 proc next*(rand: Rand): int =
-  windyRand.rand(int.high)
+  windexRand.rand(int.high)
 
 proc major*(openglVersion: OpenGLVersion): int =
   case openglVersion:
@@ -158,7 +158,7 @@ template handleRuneTemplate*() =
 
 proc addDefaultHeaders*(headers: var seq[HttpHeader]) =
   if headers["user-agent"].len == 0:
-    headers["user-agent"] = "Windy"
+    headers["user-agent"] = "Windex"
   if headers["accept-encoding"].len == 0:
     # If there isn't a specific accept-encoding specified, enable gzip
     headers["accept-encoding"] = "gzip"

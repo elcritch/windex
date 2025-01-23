@@ -1,4 +1,4 @@
-import windy
+import windex
 
 when defined(windows) or defined(macosx):
   # Screens API only currently supported on Windows and macOS

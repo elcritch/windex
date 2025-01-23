@@ -18,7 +18,7 @@ proc init* =
 
   display = connect()
   display.onError:
-    raise WindyError.newException("Wayland error for " & $objId.uint32 & ": " &
+    raise WindexError.newException("Wayland error for " & $objId.uint32 & ": " &
         $code & ", " & message)
 
   registry = display.registry
@@ -43,7 +43,7 @@ proc init* =
   sync display
 
   if compositor == nil or shm == nil or shell == nil:
-    raise WindyError.newException(
+    raise WindexError.newException(
       "Not enough Wayland interfaces, missing: " &
       (if compositor == nil: "wl_compositor " else: "") &
       (if shm == nil: "wl_shm " else: "") &

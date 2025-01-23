@@ -1,5 +1,5 @@
-import windy
+import windex
 
-setClipboardString("Windy")
+setClipboardString("Windex")
 
 echo getClipboardString()

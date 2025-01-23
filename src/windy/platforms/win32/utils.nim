@@ -48,7 +48,7 @@ proc `$`*(p: ptr WCHAR): string =
 
 proc checkHRESULT*(hresult: HRESULT) =
   if hresult != S_OK:
-    raise newException(WindyError, "HRESULT: " & toHex(hresult))
+    raise newException(WindexError, "HRESULT: " & toHex(hresult))
 
 template HIWORD*(param: WPARAM | LPARAM): int16 =
   cast[int16]((param shr 16))

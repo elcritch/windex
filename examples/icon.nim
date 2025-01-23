@@ -1,9 +1,9 @@
-import pixie, windy
+import pixie, windex
 
 when defined(windows) or defined(linux):
   # Window icon API only currently supported on Windows and Linux
 
-  let window = newWindow("Windy Icon", ivec2(1280, 800))
+  let window = newWindow("Windex Icon", ivec2(1280, 800))
   window.makeContextCurrent()
 
   let

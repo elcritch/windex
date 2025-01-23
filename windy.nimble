@@ -1,6 +1,6 @@
 version     = "0.0.0"
 author      = "Andre von Houck and Ryan Oldenburg"
-description = "Windy"
+description = "Windex"
 license     = "MIT"
 
 srcDir = "src"

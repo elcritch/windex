@@ -44,7 +44,7 @@ proc newHttpRequestHandle(): HttpRequestHandle =
   let state = HttpRequestState()
 
   while true:
-    result = windyRand.rand(int.high).HttpRequestHandle
+    result = windexRand.rand(int.high).HttpRequestHandle
     if result notin httpRequests and result.WebSocketHandle notin webSockets:
       httpRequests[result] = state
       break
@@ -53,7 +53,7 @@ proc newWebSocketHandle(): WebSocketHandle =
   let state = WebSocketState()
 
   while true:
-    result = windyRand.rand(int.high).WebSocketHandle
+    result = windexRand.rand(int.high).WebSocketHandle
     if result.HttpRequestHandle notin httpRequests and result notin webSockets:
       webSockets[result] = state
       break

@@ -1,10 +1,10 @@
-import unicode, vmath, windy/common
+import unicode, vmath, windex/common
 
 when defined(windows):
-  import windy/platforms/win32/platform
+  import windex/platforms/win32/platform
 elif defined(macosx):
-  import windy/platforms/macos/platform
+  import windex/platforms/macos/platform
 elif defined(linux):
-  import windy/platforms/linux/platform
+  import windex/platforms/linux/platform
 
 export common, platform, unicode, vmath

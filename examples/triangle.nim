@@ -1,8 +1,8 @@
-import opengl, windy
+import opengl, windex
 
-## This example shows how to get a plain openGL triangle working with windy.
+## This example shows how to get a plain openGL triangle working with windex.
 
-let window = newWindow("Windy Triangle", ivec2(1280, 800))
+let window = newWindow("Windex Triangle", ivec2(1280, 800))
 
 window.makeContextCurrent()
 loadExtensions()

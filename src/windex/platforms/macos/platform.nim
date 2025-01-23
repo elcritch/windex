@@ -1,10 +1,6 @@
 import ../../common, ../../internal, macdefs, opengl, pixie/fileformats/png,
     pixie/images, times, unicode, utils, vmath
 
-when defined(windexUseStdHttp):
-  import ../../http
-  export http
-
 type
   Window* = ref object
     onCloseRequest*: Callback
@@ -794,9 +790,6 @@ proc pollEvents*() =
 
       # forward event for app to handle
       NSApp.sendEvent(event)
-
-  when defined(windexUseStdHttp):
-    pollHttp()
 
 proc makeContextCurrent*(window: Window) =
   window.inner.contentView.NSOpenGLView.openGLContext.makeCurrentContext()

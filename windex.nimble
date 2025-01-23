@@ -1,6 +1,6 @@
-version     = "0.0.0"
-author      = "Andre von Houck and Ryan Oldenburg"
-description = "Windex"
+version     = "0.1.0"
+author      = "Jaremy Creechley, Andre von Houck, Ryan Oldenburg"
+description = "Windex - spinoff of Windy"
 license     = "MIT"
 
 srcDir = "src"

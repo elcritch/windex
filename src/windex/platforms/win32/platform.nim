@@ -1423,51 +1423,6 @@ proc pollEvents*() =
     of WM_QUIT:
       for window in windows:
         discard wndProc(window.hwnd, WM_CLOSE, 0, 0)
-    of WM_HTTP:
-      when compileOption("threads"):
-        let handle = msg.lParam
-        if handle.WebSocketHandle in webSockets:
-          case msg.wParam.uint8.int:
-          of HTTP_REQUEST_ERROR:
-            handle.WebSocketHandle.onWebSocketError("WinHttp request error")
-          of HTTP_SECURE_ERROR:
-            handle.WebSocketHandle.onWebSocketError("WinHttp secure error")
-          of HTTP_READ_COMPLETE:
-            let
-              bytesRead = HIWORD(msg.wParam)
-              bufferKind = (cast[uint](msg.wParam shr 8) and uint8.high).int
-            handle.WebSocketHandle.onReadComplete(
-              bytesRead,
-              bufferKind.WINHTTP_WEB_SOCKET_BUFFER_TYPE
-            )
-          of HTTP_WEBSOCKET_CLOSE:
-            handle.WebSocketHandle.onWebSocketClose()
-          of HTTP_HANDLE_CLOSING:
-            handle.WebSocketHandle.destroy()
-          else:
-            discard
-        else:
-          case LOWORD(msg.wParam):
-          of HTTP_REQUEST_START:
-            handle.HttpRequestHandle.onStartRequest()
-          of HTTP_REQUEST_ERROR:
-            handle.HttpRequestHandle.onHttpError("WinHttp request error")
-          of HTTP_SECURE_ERROR:
-            handle.HttpRequestHandle.onHttpError("WinHttp secure error")
-          of HTTP_SENDREQUEST_COMPLETE:
-            handle.HttpRequestHandle.onSendRequestComplete()
-          of HTTP_HEADERS_AVAILABLE:
-            handle.HttpRequestHandle.onHeadersAvailable()
-          of HTTP_READ_COMPLETE:
-            handle.HttpRequestHandle.onReadComplete(HIWORD(msg.wParam))
-          of HTTP_WRITE_COMPLETE:
-            handle.HttpRequestHandle.onWriteComplete(HIWORD(msg.wParam))
-          of HTTP_REQUEST_CANCEL:
-            handle.HttpRequestHandle.close()
-          of HTTP_HANDLE_CLOSING:
-            handle.HttpRequestHandle.destroy()
-          else:
-            discard
     else:
       discard TranslateMessage(msg.addr)
       discard DispatchMessageW(msg.addr)

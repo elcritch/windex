@@ -1428,9 +1428,6 @@ proc pollEvents*() =
       discard DispatchMessageW(msg.addr)
 
   let now = epochTime()
-  for handle, state in httpRequests:
-    if state.deadline > 0 and state.deadline <= now:
-      handle.onDeadlineExceeded()
 
   let activeWindow = windows.forHandle(GetActiveWindow())
   if activeWindow != nil:

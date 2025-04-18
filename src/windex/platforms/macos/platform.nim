@@ -765,6 +765,8 @@ proc processFlagsChanged(event: NSEvent) =
   let hasFlags = hasFlag(event.modifierFlags, NSEventModifierFlagDeviceIndependentMask)
   let button = keyCodeToButton[event.keyCode]
   let flags = event.modifierFlags
+  if button notin NSEventModifierFlagDeviceIndependentFlags:
+    return
   let buttonMask = NSEventModifierFlagDeviceIndependentFlags[button]
   let hasButton = hasFlag(flags, buttonMask)
 

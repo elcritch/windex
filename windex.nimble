@@ -1,4 +1,4 @@
-version     = "0.1.3"
+version     = "0.1.4"
 author      = "Jaremy Creechley, Andre von Houck, Ryan Oldenburg"
 description = "Windex - spinoff of Windy"
 license     = "MIT"

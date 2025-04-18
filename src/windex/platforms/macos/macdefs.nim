@@ -120,14 +120,7 @@ const
   NSEventModifierFlagHelp*        = (1 shl 22).NSEventModifierFlags
   NSEventModifierFlagFunction*    = (1 shl 23).NSEventModifierFlags
   
-  # Commonly used combinations
-  NSEventModifierFlagDeviceIndependentFlags* = [
-    NSEventModifierFlagCommand,
-    NSEventModifierFlagControl,
-    NSEventModifierFlagOption,
-    NSEventModifierFlagShift
-  ]
-  NSEventModifierFlagDeviceIndependentFlagsMask* = (
+  NSEventModifierFlagDeviceIndependentMask* = (
     NSEventModifierFlagCommand.uint64 or
     NSEventModifierFlagControl.uint64 or
     NSEventModifierFlagOption.uint64 or

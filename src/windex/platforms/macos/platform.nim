@@ -1,5 +1,5 @@
 import ../../common, ../../internal, macdefs, opengl, pixie/fileformats/png,
-    pixie/images, times, unicode, utils, vmath
+    pixie/images, times, unicode, utils, vmath, std/tables
 
 type
   Window* = ref object
@@ -746,16 +746,29 @@ proc processKeyUp(event: NSEvent) =
 proc hasFlag*(flags, flag: NSEventModifierFlags): bool {.inline.} =
   return (flags.uint64 and flag.uint64) != 0
 
+const NSEventModifierFlagDeviceIndependentFlags* = {
+    KeyLeftSuper: NSEventModifierFlagCommand,
+    KeyRightSuper: NSEventModifierFlagCommand,
+    KeyLeftControl: NSEventModifierFlagControl,
+    KeyRightControl: NSEventModifierFlagControl,
+    KeyLeftAlt: NSEventModifierFlagOption,
+    KeyRightAlt: NSEventModifierFlagOption,
+    KeyLeftShift: NSEventModifierFlagShift,
+    KeyRightShift: NSEventModifierFlagShift
+  }.toTable()
+
 proc processFlagsChanged(event: NSEvent) =
   let window = windows.forNSWindow(event.window())
   if window == nil:
     return
 
-  let hasFlags = hasFlag(event.modifierFlags, NSEventModifierFlagDeviceIndependentFlagsMask)
+  let hasFlags = hasFlag(event.modifierFlags, NSEventModifierFlagDeviceIndependentMask)
   let button = keyCodeToButton[event.keyCode]
   let flags = event.modifierFlags
+  let buttonMask = NSEventModifierFlagDeviceIndependentFlags[button]
+  let hasButton = hasFlag(flags, buttonMask)
 
-  if hasFlags:
+  if hasButton:
     window.handleButtonPress(button)
   else:
     window.handleButtonRelease(button)

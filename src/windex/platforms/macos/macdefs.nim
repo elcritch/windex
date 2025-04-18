@@ -65,6 +65,7 @@ type
   NSTextInputClient* = distinct int
   NSBitmapImageRep* = distinct NSObject
   NSDictionary* = distinct NSObject
+  NSEventModifierFlags* = distinct uint64  # Using uint64 to ensure enough space
 
 const
   NSNotFound* = int.high
@@ -109,8 +110,31 @@ const
   NSNormalWindowLevel* = 0.NSWindowLevel
   NSFloatingWindowLevel* = 3.NSWindowLevel
 
-type
+  # These values match the macOS NSEventModifierFlags constants
+  NSEventModifierFlagCapsLock*    = (1 shl 16).NSEventModifierFlags
+  NSEventModifierFlagShift*       = (1 shl 17).NSEventModifierFlags
+  NSEventModifierFlagControl*     = (1 shl 18).NSEventModifierFlags
+  NSEventModifierFlagOption*      = (1 shl 19).NSEventModifierFlags  # Alt key
+  NSEventModifierFlagCommand*     = (1 shl 20).NSEventModifierFlags
+  NSEventModifierFlagNumericPad*  = (1 shl 21).NSEventModifierFlags
+  NSEventModifierFlagHelp*        = (1 shl 22).NSEventModifierFlags
+  NSEventModifierFlagFunction*    = (1 shl 23).NSEventModifierFlags
+  
+  # Commonly used combinations
+  NSEventModifierFlagDeviceIndependentFlags* = [
+    NSEventModifierFlagCommand,
+    NSEventModifierFlagControl,
+    NSEventModifierFlagOption,
+    NSEventModifierFlagShift
+  ]
+  NSEventModifierFlagDeviceIndependentFlagsMask* = (
+    NSEventModifierFlagCommand.uint64 or
+    NSEventModifierFlagControl.uint64 or
+    NSEventModifierFlagOption.uint64 or
+    NSEventModifierFlagShift.uint64
+  ).NSEventModifierFlags
 
+type
   NSEventType* = enum
     NSEventTypeLeftMouseDown      = 1,
     NSEventTypeLeftMouseUp        = 2,
@@ -177,6 +201,7 @@ objc:
   proc locationInWindow*(self: NSEvent): NSPoint
   proc buttonNumber*(self: NSEvent): int
   proc keyCode*(self: NSEvent): uint16
+  proc modifierFlags*(self: NSEvent): NSEventModifierFlags
   proc type*(self: NSEvent): NSEventType
   proc window*(self: NSEvent): NSWindow
   proc dataWithBytes*(class: typedesc[NSData], x: pointer, length: int): NSData

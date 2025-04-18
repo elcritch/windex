@@ -324,10 +324,10 @@ proc windowDidBecomeKey(
   let window = windows.forNSWindow(self.NSWindow)
   if window == nil:
     return
+  window.state.buttonDown = {}
   if window.onFocusChange != nil:
     window.onFocusChange()
   handleMouseMove(window, window.inner.mouseLocationOutsideOfEventStream)
-  window.state.buttonDown = {}
 
 proc windowDidResignKey(
   self: ID,
@@ -335,9 +335,10 @@ proc windowDidResignKey(
   notification: NSNotification
 ): ID {.cdecl.} =
   let window = windows.forNSWindow(self.NSWindow)
-  if window != nil and window.onFocusChange != nil:
-    window.onFocusChange()
+  if window != nil:
     window.state.buttonDown = {}
+    if window.onFocusChange != nil:
+      window.onFocusChange()
 
 proc windowShouldClose(
   self: ID,
@@ -738,18 +739,26 @@ proc processKeyUp(event: NSEvent) =
   let window = windows.forNSWindow(event.window())
   if window == nil:
     return
+
   window.handleButtonRelease(keyCodeToButton[event.keyCode.int])
+
+# Example function to check if a specific flag is set
+proc hasFlag*(flags, flag: NSEventModifierFlags): bool {.inline.} =
+  return (flags.uint64 and flag.uint64) != 0
 
 proc processFlagsChanged(event: NSEvent) =
   let window = windows.forNSWindow(event.window())
   if window == nil:
     return
 
+  let hasFlags = hasFlag(event.modifierFlags, NSEventModifierFlagDeviceIndependentFlagsMask)
   let button = keyCodeToButton[event.keyCode]
-  if button in window.state.buttonDown:
-    window.handleButtonRelease(button)
-  else:
+  let flags = event.modifierFlags
+
+  if hasFlags:
     window.handleButtonPress(button)
+  else:
+    window.handleButtonRelease(button)
 
 proc pollEvents*() =
   # Draw first (in case a message closes a window or similar)

@@ -821,6 +821,11 @@ proc makeContextCurrent*(window: Window) =
 proc swapBuffers*(window: Window) =
   window.inner.contentView.NSOpenGLView.openGLContext.flushBuffer()
 
+proc rawOpenglContext*(window: Window): NSOpenGLContext =
+  ## Returns the raw NSOpenGLContext for this window.
+  ## This is similar to glCreateContext in SDL2.
+  window.inner.contentView.NSOpenGLView.openGLContext
+
 proc close*(window: Window) =
   window.onCloseRequest = nil
   window.onFrame = nil

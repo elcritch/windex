@@ -994,6 +994,11 @@ proc swapBuffers*(window: Window) =
   if SwapBuffers(window.hdc) == 0:
     raise newException(WindexError, "Error swapping buffers")
 
+proc rawOpenglContext*(window: Window): HGLRC =
+  ## Returns the raw HGLRC OpenGL context for this window.
+  ## This is similar to glCreateContext in SDL2.
+  window.hglrc
+
 proc close*(window: Window) =
   destroy window
   window.state.closed = true

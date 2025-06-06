@@ -352,6 +352,11 @@ proc makeContextCurrent*(window: Window) =
 proc swapBuffers*(window: Window) =
   display.glXSwapBuffers(window.handle)
 
+proc rawOpenglContext*(window: Window): GlxContext =
+  ## Returns the raw GLX context for this window.
+  ## This is similar to glCreateContext in SDL2.
+  window.ctx
+
 template blockUntil(expression: untyped) {.dirty.} =
   ## In X11 many properties are async, you change them and then it takes
   ## time for them to take effect. This is different from Win/Mac. This
